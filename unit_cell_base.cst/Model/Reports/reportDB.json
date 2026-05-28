@@ -1,0 +1,28 @@
+{
+    "lastModifiedBy": {
+        "build": 20201110,
+        "major": 2021,
+        "patch": 1
+    },
+    "reports": [
+        {
+            "items": [
+                {
+                    "description": "",
+                    "module": "ModelerViewer",
+                    "name": "Screenshot",
+                    "options": "{\"addOverlay\":true}",
+                    "screenshotFilepath": "ae0d9b99c9324d28ac0af5c1566bbbc5\\1c8dc40299434050a775f012eae75f48.png",
+                    "sortkey": 0,
+                    "treePath": "null",
+                    "uid": "1c8dc40299434050a775f012eae75f48",
+                    "vis3DFilepath": ""
+                }
+            ],
+            "name": "Report 1",
+            "pathName": "ae0d9b99c9324d28ac0af5c1566bbbc5",
+            "uid": "ae0d9b99c9324d28ac0af5c1566bbbc5"
+        }
+    ],
+    "version": 20200327
+}

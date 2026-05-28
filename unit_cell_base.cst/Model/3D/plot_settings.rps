@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RememberPlots>
+  <PlotSettings name="l" tree="2D/3D Results\Surface Current\surface current (f=24) [Zmax(1)]" type="vector3d" component="Abs" all_transparent="1">
+    <PhaseSettings attribute="0" phase="270" default="0">
+      <MovieSettings step="11.25" speed="40"/>
+    </PhaseSettings>
+    <TimeSettings attribute="0">
+      <Time time_samples="" sample="0" unit_to_si="1"/>
+      <MovieSettings step="1" speed="150"/>
+    </TimeSettings>
+    <VolumeSettings>
+      <Volume density="100" size="50" geometry="3" use_default_geo="0" surface_offset="0.300000012" min_size="0" aspect_ratio="1" adaptive_distribution="1" adaptive_size="0" length_by_value="1" width_by_value="1" glyph_distribution="2"/>
+      <Plane density="50" size="50" geometry="3" use_default_geo="0" surface_offset="0" min_size="0" aspect_ratio="1" adaptive_distribution="1" adaptive_size="1" length_by_value="1" width_by_value="1" glyph_distribution="1"/>
+      <FieldLines density="50" size="1" geometry="0"/>
+      <Trajectory density="100" size="1" geometry="1"/>
+      <Ray density="100" size="1" geometry="1"/>
+      <Wires density="100" size="3" geometry="1"/>
+    </VolumeSettings>
+    <ContourSettings>
+      <Contour3D quality="1" mesh="0" contour3D="0" transparency="0" outside="1"/>
+      <Contour2D quality="1" mesh="0" contour3D="1" transparency="0" outside="1"/>
+    </ContourSettings>
+    <CrossSectionSettings possible="0" selected_plane="0" clipping="1" active="0">
+      <Plane id="0" active="0" normal="1 0 0" dist="-1.64999998"/>
+      <Plane id="1" active="0" normal="0 1 0" dist="0"/>
+      <Plane id="2" active="0" normal="0 0 1" dist="0"/>
+      <Plane id="3" active="0" normal="1 0 0" dist="0"/>
+    </CrossSectionSettings>
+    <ColorRampCollection>
+      <ColorRampSettings locked="1" auto_unit="1" mapping="0" prefix="10" normalization_mode="0" normalization="1" normalization_label="">
+        <Units plot_unit="&amp;U:A^1.:m^-1" plot_unit_dB="&amp;UdB20:2^1.:A^1.:m^-1"/>
+        <Log log_str="10" anchor="0" anchor_type="0"/>
+        <dB min_bound="12.6571236" max_bound="52.6571236"/>
+        <Lin min_bound="0" max_bound="400"/>
+        <Phase min_bound="0" max_bound="360"/>
+      </ColorRampSettings>
+      <BandingSettings banding="0" tick_count="33" tick_mode="1" tick_step="1"/>
+      <ColorRampOptions type="RAINBOW" mono_color="0 0 0" clamp_mode="0" clamp_color="1 1 1 0" draw_contour="0" inverted="0" visible="1"/>
+    </ColorRampCollection>
+    <CarpetSettings scaling="50"/>
+    <IsoSurfaceSettings value="0"/>
+    <IsoLinesSettings width="1"/>
+    <DeformationPlotSettings scaling="1"/>
+    <StreamlinePlotSettings seed_point_type="0" tracing_dir="2" num_seedpoints="10 1">
+      <Array normal="1 0 0" position="0 0 0" scale="0.14999999999999999 0.14999999999999999"/>
+    </StreamlinePlotSettings>
+    <PositionPlots size="4" quantity="Energy" source="All sources" fixed_color="0 0 0" fixed_color_active="0" active="0"/>
+    <CombinedPositionPlots size="4" quantity="Position" source="" fixed_color="1 1 1" fixed_color_active="0" active="0"/>
+    <TrajectoryPlotSettings quantity="Energy" source="All sources" time="0" step="9.99999997e-07">
+      <SolverTimeInfo min="0" max="0" step="0"/>
+    </TrajectoryPlotSettings>
+    <RayPlotFilterSettings>
+      <ReflectionFilter least="0" most="0"/>
+      <SegmentFilter min="0" max="0"/>
+    </RayPlotFilterSettings>
+  </PlotSettings>
+</RememberPlots>
