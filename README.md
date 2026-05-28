@@ -1,124 +1,185 @@
-# CST Metasurface Simulation: Time-Domain Runtime Modeling & Array Optimization
+# 📡 CST Metasurface Simulation: Time-Domain Runtime Modeling & Array Optimization
 
-Welcome to the comprehensive reproduction guide for **CST Metasurface Simulation: Time-Domain Runtime Modeling & Array Optimization**. This project details the electromagnetic simulation study of reflective metasurface unit cells and full antenna arrays using CST Studio Suite (FIT/FDTD Time Domain Solver).
+## 1. Project Introduction
 
-This guide is designed to be highly structured and beginner-friendly, providing clear methodologies to reproduce identical simulation results.
+Welcome to the **Reflective Metasurface Simulation Study**, a comprehensive research-oriented project exploring electromagnetic behavior using **CST Studio Suite**. This repository serves as an educational and procedural guide for analyzing metasurface unit cells and expanding them into full antenna arrays. 
 
----
-
-## 1. Project Overview & Objectives
-
-*   **Context:** Electromagnetic simulation study of reflective metasurface unit cells and full antenna arrays using CST Studio Suite (FIT/FDTD Time Domain Solver).
-*   **Core Objective 1 (Runtime Modeling):** Establish a generalized mathematical prediction model for total simulation time ($T_{total}$) based on Mesh Cell count ($N$) and Accuracy setting ($A$ in dB), aiming for a prediction error under 10%.
-*   **Core Objective 2 (Metasurface Optimization):** Optimize geometric parameters ($L_2$, $L_3$, $R$) of a 5x5, 10x10, and 16x16 Full Array to align S-parameters and Radar Cross Section (RCS) response with target frequencies (24 GHz, 30 GHz, and 38 GHz) for downstream MATLAB analysis.
+This project specifically utilizes the **Transient Solver (Time-Domain)** with **Plane Wave excitation** to analyze electromagnetic phenomena such as S-parameters ($S_{11}$, $S_{21}$), Transverse Electric (TE) / Transverse Magnetic (TM) polarization, and Radar Cross Section (RCS) response. It also investigates the tradeoff between mesh density, solver accuracy, and computational runtime.
 
 ---
 
-## 2. Module 1: Time Domain Solver Runtime Analysis & Modeling
+## 2. Repository Structure
 
-### A. The Mathematical Model
-
-The simulation profile is broken down into Setup Time and Solver Time using these precise equations. Understanding these components is critical for accurately predicting hardware resource allocation.
-
-*   **Total Time Formula:**
-    $$T_{total}(A,N) = T_{setup}(N) + T_{solver}(N,A)$$
-
-*   **Setup Time (Meshing + Initialization):**
-    $$T_{setup}(N) = T_0 + k_1 N + k_2 \sqrt{N}$$
-    > **Note:** The $\sqrt{N}$ term explicitly corrects fitting errors in small-mesh regimes.
-
-*   **Solver Time:**
-    $$T_{solver}(N,A) = (\beta_0 + \beta_1 \ln(N)) \cdot N \cdot P(A)$$
-    > **Note:** The $\ln(N)$ term accounts for performance degradation from cache misses and memory bandwidth bottlenecks.
-
-*   **Accuracy Penalty Function:**
-    $$P(A) = 0.8 + 0.0032 \cdot e^{0.0825 \cdot A}$$
-    > **Note:** Reflects the non-linear, exponential convergence behavior of time-domain solvers.
-
-### B. Benchmark Calibration Dataset
-
-Use the following reference tables to cross-check your log data during the calibration phase.
-
-**Accuracy Effect (Unit Cell Baseline):**
-Model 1 (53,136 cells) and Model 2 (82,524 cells) ran from -20 dB to -80 dB accuracy. The solver time scales exponentially at higher accuracy levels.
-
-| Accuracy ($A$) | Model 1 Solver Time (s) | Model 2 Solver Time (s) |
-| :--- | :--- | :--- |
-| -20 dB | ~27s | - |
-| ... | ... | ... |
-| -80 dB | ~95s | - |
-*(Observe the jump from 27s to 95s for Model 1, demonstrating exponential scaling).*
-
-**Array Scaling Effect (At Fixed Accuracy A = -50 dB):**
-Grid scaling from Unit Cell $\rightarrow$ 2x2 $\rightarrow$ 3x3 $\rightarrow$ 4x4 $\rightarrow$ 6x6 $\rightarrow$ 8x8.
-
-| Grid Size | Model 1 Cells ($N$) | Model 1 Total Time ($T_{total}$) | Model 2 Cells ($N$) | Model 2 Total Time ($T_{total}$) |
-| :--- | :--- | :--- | :--- | :--- |
-| Max (8x8) | 1,480,100 | 885s | 2,283,996 | 904s |
-
-### C. Step-by-Step Calibration Workflow for Beginners
-
-1.  **Run Small-Scale Simulations:** Execute at least 3 baseline setups: Unit Cell, 2x2 Array, and either a 4x4 or 6x6 Array.
-2.  **Log File Extraction:** Open the CST Simulation/Message Log. Extract the following metrics:
-    *   $N_{cells}$ (Mesh Cell count)
-    *   $T_{meshing} + T_{initialization}$ (Combine these into $T_{setup}$)
-    *   $T_{solver}$
-    *   $A$ (Accuracy in dB)
-3.  **Curve Fitting:**
-    *   Solve the 3-variable system to isolate hardware constants $T_0, k_1, k_2$ from the Setup Time equation.
-    *   Linearize the solver equation via:
-        $$\frac{T_{solver}}{N \cdot P(A)} = \beta_0 + \beta_1 \ln(N)$$
-    *   Apply a linear fit to extract $\beta_0, \beta_1$.
-4.  **Prediction Validation:** Use the finalized equation to predict runtimes for massive grids (8x8, 10x10, 16x16) **before** executing them to ensure hardware feasibility.
+```text
+cst-metasurface-study
+├── README.md
+├── unit_cell_base.cst
+├── full_array_base.cst
+├── report_task1_unit_cell_sweep.pdf
+├── report_task2_unit_cell_optimization.pdf
+├── report_task3_runtime_analysis.pdf
+├── report_task4_runtime_mesh_accuracy.pdf
+└── report_task5_full_array_16x16.pdf
+```
 
 ---
 
-## 3. Module 2: Metasurface Array Parameter Optimization
+## 3. Prerequisites
 
-### A. Tuning Strategy & Methodological Pivot
-
-*   **The Problem:** Standard Trust Region Framework (TRF) optimization and basic Particle Swarm Optimization (PSO) algorithms either failed to converge or consumed an impractical amount of time on Full Array configurations compared to isolated Unit Cells.
-*   **The Solution:** Pivot to an intentional combination of **Sequential Parameter Sweep** and **Multi-Parameter Scale Sweep** to gain direct control over frequency shifts.
-
-### B. Execution Workflow (5x5 Array Example)
-
-Follow this strict step-by-step guide to tune the 5x5 array:
-
-**Phase 1: Sequential Parameter Sweep**
-
-*   **Step 1 (Low-Frequency / L2 Tuning):**
-    *   Fix $L_3 = 0.95\text{ mm}$ and $R = 1.15\text{ mm}$.
-    *   Sweep $L_2$ from $2.7$ to $3.0\text{ mm}$ (Step: $0.05\text{ mm}$).
-    *   **Target:** Lock resonance at **24 GHz** (Optimal: $L_2 = 2.9\text{ mm}$).
-*   **Step 2 (Inter-band Tuning / L3 Tuning):**
-    *   Fix optimal $L_2$ and $R = 1.15\text{ mm}$.
-    *   Sweep $L_3$ from $0.8$ to $1.1\text{ mm}$ (Step: $0.05\text{ mm}$).
-    *   **Target:** Achieve targeted reflection depths (Optimal: $L_3 = 1.1\text{ mm}$).
-*   **Step 3 (High-Frequency / R Tuning):**
-    *   Fix optimal $L_2$ and $L_3$.
-    *   Sweep $R$ from $1.1$ to $1.2\text{ mm}$ (Step: $0.05\text{ mm}$).
-    *   **Target:** Pull high-frequency resonance to **38 GHz** (Optimal: $R = 1.1\text{ mm}$).
-
-**Phase 2: Multi-Parameter Scale Sweep & Fine Tuning**
-
-*   Introduce a global `scale` parameter variable directly added onto $L_2$, $L_3$, and $R$.
-*   Vary `scale` from $-0.1\text{ mm}$ to $0.1\text{ mm}$ (Step: $0.05\text{ mm}$) to perform simultaneous fine adjustments across all structures.
-*   **Final Optimal Parameter Set:**
-    *   Fixed parameters: $L = 3.3\text{ mm}$, $W = 3.3\text{ mm}$, $s = 0.2\text{ mm}$, $d = 0.2\text{ mm}$, $h = 0.76\text{ mm}$
-    *   Optimized parameters: **$L_2 = 2.95\text{ mm}$, $L_3 = 1.1\text{ mm}$, $R = 1.15\text{ mm}$**
-
-### C. Data Export & MATLAB Integration
-
-After optimizing, export the final datasets across the 5x5, 10x10, and 16x16 arrays for downstream processing:
-
-1.  Export $S_{11}$ and $S_{21}$ magnitude/phase curves.
-2.  Export Bistatic RCS profiles (both Magnitude and Linear format) specifically sampled at **24 GHz, 30 GHz, and 38 GHz**.
-3.  Save all data as `.txt` or `.csv` files inside a designated `data_export/` directory for post-processing in MATLAB.
+*   **Software:** CST Studio Suite (FIT/FDTD Time Domain Solver)
+*   **Post-Processing:** MATLAB (for analyzing exported datasets)
+*   **Knowledge Base:** Basic understanding of Electromagnetics, S-Parameters, and RCS.
 
 ---
 
-## 4. Lessons Learned & Troubleshooting
+## 4. Step-by-Step Simulation Guide
 
-*   **Unit Cell vs. Full Array Optimization:** Unit Cell optimization techniques (like TRF) often break down when shifted directly onto Full Array models due to complex spatial boundary conditions and significant resource load. This necessitates alternative sweep-based approaches.
-*   **Runtime Prediction Errors:** Unit Cell models initially output a higher baseline error in runtime prediction equations. This occurs because of higher relative hardware initialization overhead proportions that dilute the pure solver time in smaller models.
-*   **Future Outlook:** We suggest testing the established runtime modeling algorithm across varied CPU/RAM hardware environments and validating its accuracy on ultra-large array formats ($>16\times16$).
+The workflow is divided into three distinct phases: analyzing a single periodic unit cell, understanding the computational constraints, and finally scaling to a massive full-array configuration.
+
+---
+
+## 5. Part 1 — Unit Cell Analysis
+
+In this phase, we analyze the baseline unit cell to understand its isolated resonant behavior using the Frequency Domain and Transient Solvers.
+**Base Model:** Open `unit_cell_base.cst`.
+
+---
+
+## 6. Task 1 — Parameter Sweep
+
+We use the parameter sweep tool to manually evaluate the sensitivity of structural geometries.
+
+*   **Navigate to:** `Home > Parameter Sweep`
+*   **Create a new parameter:** We recommend exploring the parameter `L3`.
+*   **Configure the Sweep Modes:** Use either **Step Width** or **Number of Samples** to define your iterations.
+*   **Run the Simulation:** Execute the sweep.
+*   **Observe Results:** Check the reflection response ($S_{11}$) under `1D Results > S-Parameters`.
+*   **Validation:** Compare your output graphs with the reference data in `report_task1_unit_cell_sweep.pdf`.
+
+---
+
+## 7. Task 2 — Optimizer
+
+After a manual sweep, we employ automated optimization algorithms to pinpoint exact resonances.
+
+*   **Navigate to:** `Home > Optimizer`
+*   **Select Algorithm:** Choose `Trust Region Framework` (TRF).
+*   **Configure Goals:** Set up the optimization goals (e.g., minimizing $S_{11}$ at target frequencies) as specified in `report_task2_unit_cell_optimization.pdf`.
+*   **Run Optimizer:** Allow the algorithm to converge on the optimal unit cell parameters.
+
+---
+
+## 8. Part 2 — Runtime & Mesh Knowledge Base
+
+Understanding computational cost is critical before scaling to massive arrays. Please refer to:
+*   `report_task3_runtime_analysis.pdf`
+*   `report_task4_runtime_mesh_accuracy.pdf`
+
+**Key Concepts Explained:**
+*   **Mesh Cells:** The spatial discretization grid. A denser mesh captures finer geometry but dramatically increases hardware memory requirements.
+*   **Accuracy vs. Runtime:** The solver accuracy threshold (e.g., -40 dB vs. -50 dB) dictates when the transient solver stops. Higher accuracy means exponentially longer solver runtimes.
+*   **Solver Performance Tradeoff:** Balancing the spatial mesh density with time-domain accuracy is the primary tradeoff in RF engineering.
+
+---
+
+## 9. Part 3 — Full Array Simulation
+
+We transition from isolated unit cells to massive periodic arrays to extract realistic Radar Cross Section (RCS) profiles.
+**Base Model:** Open `full_array_base.cst`.
+
+*   **Solver Selection:** Utilize the **Transient Solver** (Time Domain).
+*   **Excitation Source:** Apply **Plane Wave excitation** to mimic incoming radar signals.
+
+---
+
+## 10. Methodological Pivot Warning
+
+> [!WARNING]
+> **Black-box optimization methods such as TRF or PSO become unstable and fail to converge efficiently on large full-array metasurface structures.** The simulation becomes excessively slow and resonance behavior becomes distorted due to extreme boundary coupling and mesh complexity. Therefore, this project abandons standard optimization in favor of a strictly **Sequential Parameter Sweep** and **Multi-Parameter Sweep** strategy.
+
+---
+
+## 11. Sequential Parameter Sweep Procedure
+
+To tune the full array without triggering solver instability, follow this isolated tuning sequence.
+
+### Step 1 (Low-Frequency Tuning)
+*   **Fix Parameters:** `L3 = 0.95 mm`, `R = 1.15 mm`
+*   **Sweep Parameter:** `L2 = 2.7 → 3.0 mm` (Step: `0.05 mm`)
+*   **Target Resonance:** `24 GHz`
+*   **Best Result:** `L2 = 2.9 mm`
+
+### Step 2 (Mid-Band Tuning)
+*   **Fix Parameters:** `L2 = 2.9 mm`, `R = 1.15 mm`
+*   **Sweep Parameter:** `L3 = 0.8 → 1.1 mm` (Step: `0.05 mm`)
+*   **Best Result:** `L3 = 1.1 mm`
+
+### Step 3 (High-Frequency Tuning)
+*   **Fix Parameters:** `L2 = 2.9 mm`, `L3 = 1.1 mm`
+*   **Sweep Parameter:** `R = 1.1 → 1.2 mm` (Step: `0.05 mm`)
+*   **Target Resonance:** `38 GHz`
+*   **Best Result:** `R = 1.1 mm`
+
+---
+
+## 12. Multi-Parameter Sweep & Global Scale
+
+To account for simultaneous coupling across the array, we introduce a global modifier variable called `scale`.
+
+*   **Create Variable:** Define `scale`.
+*   **Apply to Geometry:** e.g., `L2 = 2.9 mm + scale`.
+*   **Initial Sweep:** Sweep `scale = 0 → 0.1 mm`.
+    *   **Best Stable Value:** `scale = 0.1 mm`.
+*   **Re-adjust High Frequency:** Sweep `R = 1.1 → 1.25 mm`.
+    *   **Final Best:** `R = 1.15 mm`.
+*   **Fine Tuning Run:** Sweep `scale = -0.1 → 0.1 mm` across the entire structure to lock in the final geometry.
+
+---
+
+## 13. Golden Parameters Equation
+
+Following the sequential and multi-parameter scaling sweeps, the final optimized geometry for the full array is defined as:
+
+```math
+L_2 = 2.95\text{ mm}, \quad
+L_3 = 1.1\text{ mm}, \quad
+R = 1.15\text{ mm}
+```
+
+---
+
+## 14. Array Scaling and MATLAB Export Checklist
+
+With the parameters locked, scale the array from $5\times5$ up to $16\times16$ to analyze RCS saturation.
+
+*   **Expansion:** Use the **Translate Structure** tool to expand the grid: `5x5 → 10x10 → 16x16`.
+*   **Run Simulations:** Execute the Time Domain solver for all array sizes.
+*   **Data Export Checklist:**
+    *   S-Parameters: $S_{11}$, $S_{21}$
+    *   TE/TM Polarization Data
+    *   Bistatic RCS Abs
+*   **Sample Frequencies:** Extract data specifically at `24 GHz`, `30 GHz`, and `38 GHz`.
+*   **Formatting:** Export data as `.txt` or `.csv`.
+*   **Units:** Export RCS in both logarithmic `dB(m²)` and `linear (m²)` formats.
+*   **Post-Processing:** Load these exported files into **MATLAB** to plot and compare RCS curves across the different array sizes.
+
+---
+
+## 15. Notes for Beginners
+
+*   **Beginner Tips:** Always run a quick, low-mesh simulation to verify port alignment and boundary conditions before launching a high-accuracy Time-Domain run.
+*   **Runtime:** Large full-array simulations can take several hours depending on hardware. Use the runtime equations discussed in Part 2 to estimate computation times before clicking "Start".
+*   **Mesh Density:** More mesh cells $\neq$ better data if the structure is simple. Keep mesh density localized around critical geometric gaps.
+*   **Computational Cost:** Arrays over $16\times16$ require extensive RAM. Monitor your system's memory usage to prevent solver crashes.
+
+---
+
+## 16. Citation / Research Note
+
+This repository contains data and methodologies resulting from active research in applied electromagnetics and metasurface design. If you utilize these workflows or datasets in your own studies, please ensure proper citation and acknowledge the procedural methodology outlined in this document.
+
+---
+
+## 📝 Author
+
+palitakaewsena-sudo
