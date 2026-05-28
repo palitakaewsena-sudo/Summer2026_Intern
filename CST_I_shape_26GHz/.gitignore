@@ -1,0 +1,24 @@
+# CST Studio Suite gitignore
+# Ignore large auto-generated results, mesh caches, and temporary solver directories
+**/ModelCache/
+**/Result/
+**/Temp/
+**/SP/
+**/DC/
+**/html/
+
+# Ignore log files, lock files, and backups created during simulations
+*.lok
+*.log
+*.bak
+*.bak-*
+*.ds
+*.sv
+*.pnt
+*.txt.bak
+*.map
+*.txt.mod
+*.dib
+
+# MATLAB drive and tag files
+.MATLABDriveTag

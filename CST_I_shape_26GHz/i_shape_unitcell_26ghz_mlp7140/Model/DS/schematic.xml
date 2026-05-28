@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SchematicTopology Version="2.5" Seed="244" Grid="25">
+    <Block Id="1" ForeignId="24985240" Class="MWSSCHEM" ImageIndex="1">
+        <Size Height="225" Width="150"/>
+        <Pins Distribution="Custom">
+            <Pin Index="0" Port="0" BlockPosition="Right">
+                <Label>Zmax(1)</Label>
+            </Pin>
+            <Pin Index="1" Port="1" BlockPosition="Left">
+                <Label>Zmax(2)</Label>
+            </Pin>
+            <Ports>
+                <Port Name="Zmax(1)" Label=""/>
+                <Port Name="Zmax(2)" Label=""/>
+            </Ports>
+        </Pins>
+        <Image FileName="../../3D/Model.dib" Scale="AutoFit"/>
+        <Pos X="600" Y="-412.5"/>
+        <ToolTip>CST MICROWAVE STUDIO schematic block MWSSCHEM1</ToolTip>
+    </Block>
+    <Block Id="148" ForeignId="389212625" Class="EXTPORT" Flags="NotResizable">
+        <Size Height="50" Width="100"/>
+        <Pins ExtendedDistribution="1">
+            <Pin Index="0" Port="0" BlockPosition="Center"/>
+            <Ports>
+                <Port Name="" Label=""/>
+            </Ports>
+        </Pins>
+        <Pos X="-850" Y="-25"/>
+        <Label>1</Label>
+        <ToolTip>External Port 1</ToolTip>
+    </Block>
+    <Block Id="150" ForeignId="46527166" Class="CAP" Flags="NotResizable">
+        <Size Height="60" Width="50"/>
+        <Pins Distribution="Custom">
+            <Pin Index="0" Port="0" BlockPosition="Left"/>
+            <Pin Index="0" Port="1" BlockPosition="Right"/>
+            <Ports>
+                <Port Name="" Label=""/>
+                <Port Name="" Label=""/>
+            </Ports>
+        </Pins>
+        <Pos X="-75" Y="150"/>
+        <Label>0.1443</Label>
+        <ToolTip>Capacitor CAP3</ToolTip>
+    </Block>
+    <Block Id="153" ForeignId="250184154" Class="IND" Flags="NotResizable">
+        <Size Height="50" Width="100"/>
+        <Pos X="-75" Y="-50"/>
+        <Label>0.25 n</Label>
+        <ToolTip>Inductor IND1</ToolTip>
+    </Block>
+    <Block Id="154" ForeignId="99526840" Class="IND" Flags="NotResizable">
+        <Size Height="50" Width="100"/>
+        <Pos X="100" Y="-50"/>
+        <Label>0.6484 n</Label>
+        <ToolTip>Inductor IND2</ToolTip>
+    </Block>
+    <Link Id="161">
+        <Connection Pin="1" Ref="150" Type="Pin"/>
+        <Connection Id="213" Type="Junction"/>
+        <Route>
+            <Pos X="-30" Y="150"/>
+            <Pos X="175" Y="150"/>
+            <Pos X="175" Y="50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="163">
+        <Connection Pin="1" Ref="153" Type="Pin"/>
+        <Connection Pin="0" Ref="154" Type="Pin"/>
+        <Route>
+            <Pos X="370" Y="-125"/>
+            <Pos X="405" Y="-125"/>
+        </Route>
+        <Pos X="-375" Y="75"/>
+    </Link>
+    <Link Id="189" Mode="Ortho FixedInternally" Flags="KeepInReconstruction">
+        <Connection X="-350" Y="-50" Type="Position"/>
+        <Connection Id="231" Type="Junction"/>
+        <Route>
+            <Pos X="-345" Y="-50"/>
+            <Pos X="-347.5" Y="-50"/>
+            <Pos X="-350" Y="-50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Block Id="191" ForeignId="44359770" Class="TL">
+        <Size Height="150" Width="150"/>
+        <Pos X="375" Y="50"/>
+        <ToolTip>Transmission line TL1</ToolTip>
+    </Block>
+    <Block Id="198" ForeignId="698911130" Class="GND">
+        <Size Height="50" Width="50"/>
+        <Pos X="550" Y="100"/>
+        <ToolTip>Ground GND1</ToolTip>
+    </Block>
+    <Junction Id="213" Fixed="0">
+        <Pos X="175" Y="50"/>
+    </Junction>
+    <Link Id="214">
+        <Connection Pin="0" Ref="191" Type="Pin"/>
+        <Connection Id="213" Type="Junction"/>
+        <Route>
+            <Pos X="280" Y="50"/>
+            <Pos X="175" Y="50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="215">
+        <Connection Id="213" Type="Junction"/>
+        <Connection Pin="1" Ref="154" Type="Pin"/>
+        <Route>
+            <Pos X="175" Y="50"/>
+            <Pos X="175" Y="-50"/>
+            <Pos X="170" Y="-50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="216">
+        <Connection Pin="1" Ref="191" Type="Pin"/>
+        <Connection Pin="0" Ref="198" Type="Pin"/>
+        <Route>
+            <Pos X="470" Y="50"/>
+            <Pos X="550" Y="50"/>
+            <Pos X="550" Y="80"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Junction Id="231" Fixed="1">
+        <Pos X="-350" Y="-50"/>
+    </Junction>
+    <Link Id="233">
+        <Connection Id="231" Type="Junction"/>
+        <Connection Pin="0" Ref="150" Type="Pin"/>
+        <Route>
+            <Pos X="-350" Y="-50"/>
+            <Pos X="-350" Y="150"/>
+            <Pos X="-120" Y="150"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Block Id="234" ForeignId="17936538" Class="CAP" Flags="NotResizable">
+        <Size Height="60" Width="50"/>
+        <Pins Distribution="Custom">
+            <Pin Index="0" Port="0" BlockPosition="Left"/>
+            <Pin Index="0" Port="1" BlockPosition="Right"/>
+            <Ports>
+                <Port Name="" Label=""/>
+                <Port Name="" Label=""/>
+            </Ports>
+        </Pins>
+        <Pos X="-250" Y="-50"/>
+        <Label>0.21 p</Label>
+        <ToolTip>Capacitor CAP4</ToolTip>
+    </Block>
+    <Block Id="239" ForeignId="499662827" Class="TL">
+        <Size Height="150" Width="150"/>
+        <Pos X="-550" Y="-50"/>
+        <ToolTip>Transmission line TL2</ToolTip>
+    </Block>
+    <Link Id="240">
+        <Connection Pin="0" Ref="239" Type="Pin"/>
+        <Connection Pin="0" Ref="148" Type="Pin"/>
+        <Route>
+            <Pos X="-645" Y="-50"/>
+            <Pos X="-720" Y="-50"/>
+            <Pos X="-720" Y="-25"/>
+            <Pos X="-800" Y="-25"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="241">
+        <Connection Pin="1" Ref="239" Type="Pin"/>
+        <Connection Id="231" Type="Junction"/>
+        <Route>
+            <Pos X="-455" Y="-50"/>
+            <Pos X="-350" Y="-50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="243">
+        <Connection Id="231" Type="Junction"/>
+        <Connection Pin="0" Ref="234" Type="Pin"/>
+        <Route>
+            <Pos X="-350" Y="-50"/>
+            <Pos X="-295" Y="-50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+    <Link Id="244">
+        <Connection Pin="0" Ref="153" Type="Pin"/>
+        <Connection Pin="1" Ref="234" Type="Pin"/>
+        <Route>
+            <Pos X="-145" Y="-50"/>
+            <Pos X="-205" Y="-50"/>
+        </Route>
+        <Pos X="0" Y="0"/>
+    </Link>
+</SchematicTopology>

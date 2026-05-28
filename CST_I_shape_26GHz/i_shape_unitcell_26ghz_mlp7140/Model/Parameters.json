@@ -1,0 +1,72 @@
+{
+    "parameters": [
+        {
+            "descr": "spherical angle of incident plane wave",
+            "expr": "0",
+            "name": "theta",
+            "value": "0"
+        },
+        {
+            "descr": "spherical angle of incident plane wave",
+            "expr": "0",
+            "name": "phi",
+            "value": "0"
+        },
+        {
+            "expr": "5.5",
+            "name": "l",
+            "value": "5.5"
+        },
+        {
+            "expr": "5.5",
+            "name": "p",
+            "value": "5.5"
+        },
+        {
+            "expr": "3.8",
+            "name": "w",
+            "value": "3.8"
+        },
+        {
+            "expr": "0.5",
+            "name": "h",
+            "value": "0.5"
+        },
+        {
+            "expr": "0.15",
+            "name": "g",
+            "value": "0.15"
+        },
+        {
+            "expr": "2",
+            "name": "Rs",
+            "value": "2"
+        },
+        {
+            "expr": "0",
+            "name": "Rt",
+            "value": "0"
+        },
+        {
+            "expr": "0.25e-9",
+            "name": "Lv",
+            "value": "0.25e-9"
+        },
+        {
+            "expr": "0.12e-12",
+            "name": "Ct",
+            "value": "0.12e-12"
+        },
+        {
+            "expr": "0",
+            "name": "m1",
+            "value": "0"
+        },
+        {
+            "expr": "0.635",
+            "name": "q",
+            "value": "0.635"
+        }
+    ],
+    "version": 1
+}
