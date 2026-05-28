@@ -17,7 +17,7 @@ The system implements a **32 × 32 reflective RIS array (1024 elements)** capabl
 
 ---
 
-# 📖 Project Overview
+# Project Overview
 
 At millimeter-wave frequencies, wireless communication systems suffer from:
 
@@ -90,7 +90,7 @@ CST_I_shape_26GHz/
 
 ---
 
-# ⚙️ Workflow Overview
+# Workflow Overview
 
 The project workflow consists of three major stages:
 
@@ -117,7 +117,7 @@ H --> I[Far-Field Radiation Pattern]
 
 ---
 
-# 🧠 MATLAB Beam Steering Engine
+# MATLAB Beam Steering Engine
 
 The MATLAB script:
 
@@ -137,7 +137,7 @@ The system supports arbitrary incident angles by interpolating missing phase inf
 
 ---
 
-# ⚡ PIN Diode Equivalent Circuit Model
+# PIN Diode Equivalent Circuit Model
 
 The RIS uses the **MACOM MLP7140 PIN diode** modeled as an equivalent RLC lumped element.
 
@@ -165,7 +165,7 @@ Where:
 
 ---
 
-# 📡 Beam Steering Principle
+# Beam Steering Principle
 
 The RIS manipulates the reflected wavefront by compensating for spatial phase delay across the surface.
 
@@ -184,7 +184,7 @@ using nearest-state phase quantization.
 
 ---
 
-# 🚀 How to Run the Project
+# How to Run the Project
 
 ## Step 1 — Generate Coding Matrix in MATLAB
 
@@ -255,7 +255,7 @@ to extract far-field radiation patterns.
 
 ---
 
-# 🔥 Power Consumption Analysis
+# Power Consumption Analysis
 
 Each PIN diode requires:
 
@@ -282,7 +282,7 @@ P_{\text{total}} = 10.24\text{ A} \times 0.734\text{ V} = 7.52\text{ W}
 
 ---
 
-# 🧪 Software Requirements
+# Software Requirements
 
 ## MATLAB
 
@@ -296,13 +296,13 @@ P_{\text{total}} = 10.24\text{ A} \times 0.734\text{ V} = 7.52\text{ W}
 
 ---
 
-# 📜 License
+# License
 
 This project is licensed under the MIT License.
 
 ---
 
-# 📚 Citation
+# Citation
 
 If you use this project in academic research, please cite:
 
@@ -317,7 +317,7 @@ If you use this project in academic research, please cite:
 
 ---
 
-# 👨🔬 Research Focus
+# Research Focus
 
 This repository is intended for:
 
