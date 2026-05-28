@@ -40,18 +40,6 @@ Summer2026_Intern/
 
 ---
 
-## Projects Summary Matrix
-
-The table below outlines the operational frequencies, active components, numerical solvers, and core focus areas for each project in this repository:
-
-| Project Directory | Frequency (GHz) | Active Control Element | Key Simulation Focus | Numerical Solver |
-| :--- | :--- | :--- | :--- | :--- |
-| **cst-metasurface-study** | 24.0, 30.0, 38.0 | Passive (Geometric tuning) | Parameter sweeps, TRF optimization, 16x16 array scaling | Frequency Domain (FEM) & Transient (FIT) |
-| **metasurface-pindiode-lumped-modeling** | 24.0 - 28.0 | Active PIN Diode (Lumped RLC) | Dynamic resonance shifting, surface currents, angular stability | Frequency Domain & Transient Solvers |
-| **reconfigurable-reflectarray-20gh** | 20.0 | Active PIN Diode (1-bit phase) | Reflection phase analysis, MATLAB post-processed beam steering | Frequency Domain & Transient Solvers |
-| **CST_I_shape_26GHz** | 26.0 | Active MLP7140 Limiter Diode | I-shape patch modeling, 32x32 RIS array builder VBA scripts | Frequency Domain & Transient Solvers |
-
----
 
 ## Projects Directory Overview
 
